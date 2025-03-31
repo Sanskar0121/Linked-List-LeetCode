@@ -1,0 +1,70 @@
+Code : 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        p = node.next
+        node.val = p.val
+        node.next = p.next
+
+Explaination : 
+🔍 Understanding the Problem
+You are working with a **singly linked list, which is a chain of nodes. Each node contains:
+- A value (`val`)
+- A pointer (`next`) to the next node in the list.
+
+The function `deleteNode()` is designed to **delete a node from the linked list **in place**. However, there’s a twist: 
+- You are **not given the head** of the list.
+- You are only given the **node to be deleted**.
+
+### 🔧 **How the Code Works**
+```python
+p = node.next           # Step 1: Store the next node in variable `p`
+node.val = p.val        # Step 2: Copy the value of `p` into the current node
+node.next = p.next      # Step 3: Link the current node to the node after `p`
+```
+
+### ✅ **Step-by-step Example**
+Imagine you have the following linked list:
+```
+1 → 2 → 3 → 4
+```
+You want to **delete the node with value `3`**. The function receives the node with value `3` as input.
+
+1. **Step 1:** 
+   ```python
+   p = node.next
+   ```
+   - `p` now points to the **next node**, which is `4`.
+
+2. **Step 2:** 
+   ```python
+   node.val = p.val
+   ```
+   - You **replace the value of the current node** with the value of `p`. 
+   - So, the current node (which was `3`) now holds the value `4`.
+
+3. **Step 3:** 
+   ```python
+   node.next = p.next
+   ```
+   - You **skip the `p` node** by making the current node’s `next` point to `p.next`.
+   - Since `p.next` is `None` (end of the list), the modified list becomes:
+   ```
+   1 → 2 → 4
+   ```
+
+### 🛠️ **Key Takeaway**
+- You are **not actually removing the current node**.
+- Instead, you **copy the next node’s value** into the current node.
+- You then **link it to the next-next node**, effectively deleting the next node from the chain.
+
+✅ This is a clever trick because it allows you to "delete" the node without needing access to the head of the list! 🚀
