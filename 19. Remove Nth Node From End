@@ -1,0 +1,159 @@
+Code : 
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy = ListNode() 
+        dummy.next = head
+        behind = ahead = dummy
+
+        for _ in range(n+1):
+            ahead = ahead.next
+        
+        while ahead:
+            behind = behind.next
+            ahead = ahead.next
+
+        behind.next = behind.next.next
+        return dummy.next 
+
+  Explaination : 
+
+  Sure! Let me explain this code in a simple and clear way.
+
+---
+
+### 🔍 **Understanding the Problem**
+The goal of this function is to **remove the Nth node from the end** of a singly linked list.
+
+For example:
+- Given the list:  
+  ```
+  1 → 2 → 3 → 4 → 5
+  ```
+  - If `n = 2`, you want to remove the **2nd node from the end**, which is `4`.
+- The output should be:
+  ```
+  1 → 2 → 3 → 5
+  ```
+
+---
+
+### ✅ **Code Breakdown**
+
+```python
+dummy = ListNode()  
+dummy.next = head  
+```
+- You create a **dummy node** with value `0` and point its `next` to the `head` of the list.
+- The dummy node is useful because:
+  - It handles edge cases like **removing the first node** without needing extra checks.
+  - The list now looks like:
+  ```
+  0 → 1 → 2 → 3 → 4 → 5
+  ```
+
+---
+
+```python
+behind = ahead = dummy
+```
+- You create **two pointers**: `behind` and `ahead`.
+- Both initially point to the dummy node.
+
+---
+
+### 🔥 **Step 1: Move the `ahead` pointer forward by `(n + 1)` steps**
+```python
+for _ in range(n+1):
+    ahead = ahead.next
+```
+- The `ahead` pointer moves **(n + 1)** steps forward.  
+- Why `n + 1`?  
+  - This creates a **gap of `n` nodes** between `ahead` and `behind`.
+- Example when `n = 2`:
+  - After the loop:
+  ```
+  behind → 0  
+  ahead  → 3  
+  ```
+
+---
+
+### 🔥 **Step 2: Move both pointers until `ahead` reaches the end**
+```python
+while ahead:
+    behind = behind.next
+    ahead = ahead.next
+```
+- Both pointers move forward **together** until `ahead` reaches the end of the list.
+- This ensures that `behind` is right **before the Nth node from the end**.
+- Example:
+  - When `ahead` reaches `None` (end of the list),  
+    `behind` is at node `3`.
+
+---
+
+### 🔥 **Step 3: Remove the Nth node**
+```python
+behind.next = behind.next.next
+```
+- You **skip the Nth node** by linking the current node (`behind`) to the node after the Nth node.
+- Example:
+  - `behind.next` initially points to `4` (the node to be removed).
+  - You make it point to `5` instead:
+  ```
+  1 → 2 → 3 → 5
+  ```
+
+---
+
+### 🔥 **Step 4: Return the new list**
+```python
+return dummy.next
+```
+- You return the modified list starting from `dummy.next`, which is the actual head of the list.
+
+---
+
+### 🚀 **Example Walkthrough**
+Input:  
+```
+1 → 2 → 3 → 4 → 5  
+n = 2  
+```
+**Steps:**
+1. Create the dummy node:
+```
+0 → 1 → 2 → 3 → 4 → 5  
+```
+2. Move the `ahead` pointer `(n + 1)` steps:
+```
+behind → 0  
+ahead  → 3  
+```
+3. Move both pointers until `ahead` reaches the end:
+```
+behind → 3  
+ahead  → None  
+```
+4. Remove the Nth node:
+```
+3 → next = 5  
+```
+Final list:
+```
+1 → 2 → 3 → 5  
+```
+
+---
+
+### 🔥 **Key Takeaways**
+1. **Two-pointer technique** with a gap of `n` between them allows you to efficiently find the Nth node from the end.
+2. The **dummy node** handles edge cases (like removing the head) cleanly.
+3. The time complexity is **O(L)**, where `L` is the length of the list, since you only traverse the list once.  
+✅ Efficient and clean solution! 🚀 
