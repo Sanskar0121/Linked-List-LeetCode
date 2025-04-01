@@ -1,0 +1,96 @@
+# CODE 
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        d = ListNode() 
+        cur = d 
+
+        while list1 and list2:
+            if list1.val < list2.val:
+                cur.next = list1
+                cur = list1
+                list1 = list1.next
+            else:
+                cur.next = list2
+                cur = list2
+                list2 = list2.next
+
+        cur.next = list1 if list1 else list2
+
+        return d.next 
+
+        # Time : O(n) 
+        # Space : O(1) 
+
+  Step-by-Step Explanation
+Step 1: Create a Dummy Node
+We create a dummy node (d) to start our new merged list.
+
+We also use a pointer (cur) to keep track of the last node in the merged list.
+
+🔹 Why do we need a dummy node?
+It makes handling edge cases (like empty lists) easier.
+
+Step 2: Compare and Merge Nodes
+We compare the first nodes of list1 and list2.
+
+Whichever node has the smaller value, we attach it to cur.next.
+
+We move cur forward and also move the pointer (list1 or list2) forward.
+
+Example Walkthrough:
+Let’s assume:
+
+ini
+Copy
+Edit
+list1 = 1 -> 3 -> 5
+list2 = 2 -> 4 -> 6
+1️⃣ Compare 1 and 2 → 1 is smaller → Attach 1
+✅ Merged list: 1 ->
+Move list1 to 3.
+
+2️⃣ Compare 3 and 2 → 2 is smaller → Attach 2
+✅ Merged list: 1 -> 2 ->
+Move list2 to 4.
+
+3️⃣ Compare 3 and 4 → 3 is smaller → Attach 3
+✅ Merged list: 1 -> 2 -> 3 ->
+Move list1 to 5.
+
+4️⃣ Compare 5 and 4 → 4 is smaller → Attach 4
+✅ Merged list: 1 -> 2 -> 3 -> 4 ->
+Move list2 to 6.
+
+5️⃣ Compare 5 and 6 → 5 is smaller → Attach 5
+✅ Merged list: 1 -> 2 -> 3 -> 4 -> 5 ->
+Move list1 to None.
+
+Step 3: Attach Remaining Nodes
+At this point, list1 is empty, but list2 still has 6.
+We simply attach the remaining nodes from list2.
+
+✅ Final Merged List:
+1 -> 2 -> 3 -> 4 -> 5 -> 6
+
+Time and Space Complexity
+Complexity	Explanation
+Time Complexity: O(n + m)	We go through all nodes from both lists once.
+Space Complexity: O(1)	We don’t use extra space; we just rearrange pointers.
+How to Explain This in an Interview?
+You can say:
+
+"I use a dummy node to simplify edge cases."
+
+"I maintain a pointer (cur) that helps in building the merged list."
+
+"I compare values from both lists and attach the smaller node each time."
+
+"After the loop, I attach the remaining nodes from the non-empty list."
+
+"This runs in O(n + m) time because we process each node once.
