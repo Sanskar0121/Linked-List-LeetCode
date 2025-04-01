@@ -1,0 +1,170 @@
+# Code 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if not head or not head.next:
+            return True
+        
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        prev, curr = None, slow
+        while curr:
+            nxt = curr.next
+            curr.next = prev 
+            prev = curr
+            curr = nxt 
+
+        first, second = head, prev
+        while second:
+            if first.val != second.val:
+                return False
+            first = first.next
+            second = second.next
+
+        return True
+
+  📝 Problem Understanding
+We need to check if a singly linked list is a palindrome (reads the same forward and backward).
+
+🔹 Example 1: ✅ Palindrome
+
+rust
+Copy
+Edit
+Input:  1 -> 2 -> 2 -> 1
+Output: True
+🔹 Example 2: ❌ Not a Palindrome
+
+vbnet
+Copy
+Edit
+Input:  1 -> 2
+Output: False
+🚀 Code Breakdown (Step-by-Step)
+Step 1: Handle Edge Cases
+python
+Copy
+Edit
+if not head or not head.next:
+    return True
+✅ Why?
+
+If the list is empty (head = None) → It's automatically a palindrome.
+
+If the list has only one node (head.next = None) → It's also a palindrome.
+
+Step 2: Find the Middle of the Linked List
+python
+Copy
+Edit
+slow, fast = head, head
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+✅ How it Works?
+
+We use two pointers:
+
+slow moves one step at a time.
+
+fast moves two steps at a time.
+
+When fast reaches the end, slow is at the middle of the list.
+
+🔹 Example: Finding the Middle
+
+vbnet
+Copy
+Edit
+List:   1  ->  2  ->  3  ->  2  ->  1
+Index:  (fast moves 2 steps, slow moves 1 step)
+Step 1: slow = 2, fast = 3
+Step 2: slow = 3, fast = 1 (last node)
+Middle found at: 3
+✅ Now, slow points to the middle node (3 in this case).
+
+Step 3: Reverse the Second Half of the List
+python
+Copy
+Edit
+prev, curr = None, slow
+while curr:
+    nxt = curr.next
+    curr.next = prev
+    prev = curr
+    curr = nxt
+✅ How it Works?
+We reverse the second half of the list in place.
+
+🔹 Example: Reverse the Second Half
+
+rust
+Copy
+Edit
+Before Reverse:
+1  ->  2  ->  3  ->  2  ->  1
+                     ^slow
+
+After Reverse:
+1  ->  2  ->  3  <-  2  <-  1
+                     prev
+✅ Now, prev points to the new head of the reversed second half.
+
+Step 4: Compare the First Half with the Reversed Second Half
+python
+Copy
+Edit
+first, second = head, prev
+while second:
+    if first.val != second.val:
+        return False
+    first = first.next
+    second = second.next
+✅ How it Works?
+
+first starts from the beginning of the list.
+
+second starts from the beginning of the reversed half.
+
+We compare values one by one.
+
+If all values match, return True; otherwise, return False.
+
+🔹 Example: Checking for Palindrome
+
+rust
+Copy
+Edit
+First half:  1  ->  2  ->  3
+Reversed:    1  ->  2  ->  3   ✅ Matches! (Palindrome)
+✅ If all values match → It's a palindrome!
+
+Step 5: Return the Result
+python
+Copy
+Edit
+return True
+✅ If we finish the loop without finding any mismatch, we return True.
+
+🔢 Time & Space Complexity
+Complexity	Explanation
+Time Complexity: O(n)	We traverse the list three times (find middle, reverse, compare).
+Space Complexity: O(1)	We modify the list in place using pointers (no extra space used).
+🎯 Quick Summary (Interview Answer)
+Find the middle using slow & fast pointers.
+
+Reverse the second half of the linked list.
+
+Compare the first half with the reversed second half.
+
+If they match, return True; otherwise, return False.
+
+🚀 Efficient solution with O(n) time and O(1) space!
+
