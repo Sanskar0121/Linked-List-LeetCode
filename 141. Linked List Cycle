@@ -1,0 +1,131 @@
+# CODE 
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        dummy = ListNode() 
+        dummy.next = head
+        slow = fast = dummy 
+
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+
+            if slow is fast:
+                return True
+        
+        return False
+
+        # Time = O(n) 
+        # Space = O(1) 
+
+         
+        📝 Problem Understanding
+We need to detect if a given singly linked list has a cycle (loop).
+
+🔹 Example 1: Cycle Exists (🔄 Yes)
+
+rust
+Copy
+Edit
+Input:  3 -> 2 -> 0 -> -4 -> (back to 2)
+Output: True
+🔹 Example 2: No Cycle (❌ No)
+
+rust
+Copy
+Edit
+Input:  1 -> 2 -> None
+Output: False
+✅ If there is a cycle, we return True, otherwise, we return False.
+
+🚀 Code Breakdown (Step-by-Step)
+Step 1: Initialize Pointers
+python
+Copy
+Edit
+dummy = ListNode() 
+dummy.next = head
+slow = fast = dummy 
+✅ What is happening here?
+
+We create a dummy node and make it point to head.
+
+We initialize two pointers:
+
+slow moves one step at a time.
+
+fast moves two steps at a time.
+
+Step 2: Traverse the List Using Two Pointers
+python
+Copy
+Edit
+while fast and fast.next:
+    fast = fast.next.next  # Move fast pointer 2 steps
+    slow = slow.next       # Move slow pointer 1 step
+
+    if slow is fast:       # If both meet, there is a cycle
+        return True
+✅ How it Works?
+
+The fast pointer moves twice as fast as the slow pointer.
+
+If there is a cycle, fast will eventually catch up to slow inside the loop.
+
+If slow == fast, we return True (cycle detected).
+
+🔹 Example: Detecting a Cycle
+
+rust
+Copy
+Edit
+List with Cycle:
+1 -> 2 -> 3 -> 4 -> 5 -> (back to 3)
+
+Step-by-step movement:
+slow:  1 -> 2 -> 3 -> 4 -> 5 -> 3 -> 4
+fast:  1 -> 3 -> 5 -> 3 -> 5 -> 3 (meets slow)
+✅ Since slow meets fast, the function returns True.
+
+Step 3: If Fast Reaches the End (No Cycle)
+python
+Copy
+Edit
+return False
+✅ What is happening here?
+
+If there is no cycle, fast will eventually reach None (end of the list).
+
+We return False because there is no loop.
+
+🔹 Example: No Cycle
+
+rust
+Copy
+Edit
+1 -> 2 -> 3 -> 4 -> None  (No cycle)
+fast moves: 1 -> 3 -> None (reaches end)
+✅ Since fast reaches None, we return False.
+
+🔢 Time & Space Complexity
+Complexity	Explanation
+Time Complexity: O(n)	Fast and slow pointers traverse the list at most once.
+Space Complexity: O(1)	No extra memory is used, only pointers.
+🎯 Quick Summary (Interview Answer)
+Use two pointers (slow and fast).
+
+Move slow one step, fast two steps.
+
+If slow and fast meet, there is a cycle (True).
+
+If fast reaches None, there is no cycle (False).
+
+This runs in O(n) time and O(1) space.
+
+🚀 Efficient solution using Floyd’s Cycle Detection Algorithm!
