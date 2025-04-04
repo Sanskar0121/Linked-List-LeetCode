@@ -1,0 +1,151 @@
+CODE :
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next 
+
+        second = slow.next 
+        prev = slow.next = None
+        while second:
+            tmp = second.next
+            second.next = prev
+            prev = second
+            second = tmp 
+
+        first, second = head, prev
+        while second:
+            tmp1, tmp2 = first.next, second.next
+            first.next = second 
+            second.next = tmp1
+            first, second = tmp1, tmp2 
+
+        # Time = O(n) 
+        # Space = O(1) 
+
+  Explaination : 
+  🎯 Problem Statement:
+Given a singly linked list:
+
+rust
+Copy
+Edit
+1 -> 2 -> 3 -> 4 -> 5
+Reorder it to:
+
+rust
+Copy
+Edit
+1 -> 5 -> 2 -> 4 -> 3
+We want to do this:
+
+In-place (no extra space),
+
+In linear time O(n).
+
+✅ Full Code Walkthrough:
+python
+Copy
+Edit
+slow, fast = head, head.next
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+🔹 Step 1: Find the Middle of the List
+This is the slow and fast pointer trick:
+
+slow moves one step at a time.
+
+fast moves two steps at a time.
+
+So when fast reaches the end, slow is at the middle.
+
+For input: 1 -> 2 -> 3 -> 4 -> 5
+
+slow will point to node 3
+
+python
+Copy
+Edit
+second = slow.next 
+prev = slow.next = None
+while second:
+    tmp = second.next
+    second.next = prev
+    prev = second
+    second = tmp
+🔹 Step 2: Reverse the Second Half of the List
+second = slow.next → This is the head of second half (4)
+
+Then we reverse the second half of the list:
+
+4 -> 5 becomes 5 -> 4
+
+prev ends up pointing to 5 (new head of reversed half)
+
+Also, we break the list at the middle by doing slow.next = None
+
+python
+Copy
+Edit
+first, second = head, prev
+while second:
+    tmp1, tmp2 = first.next, second.next
+    first.next = second 
+    second.next = tmp1
+    first, second = tmp1, tmp2
+🔹 Step 3: Merge the Two Halves
+Now we interleave the two parts:
+
+First half: 1 -> 2 -> 3
+
+Reversed second half: 5 -> 4
+
+We merge them like:
+
+rust
+Copy
+Edit
+1 -> 5 -> 2 -> 4 -> 3
+This is done by alternating between nodes from each half using two pointers: first and second.
+
+🧠 Final Time and Space Complexity
+python
+Copy
+Edit
+# Time = O(n) → one pass to find middle, one to reverse, one to merge
+# Space = O(1) → all operations are in-place, no extra list or stack
+🔍 Quick Recap with Example
+Input:
+
+rust
+Copy
+Edit
+1 -> 2 -> 3 -> 4 -> 5
+Steps:
+
+Middle = 3
+
+Reverse second half → 5 -> 4
+
+Merge:
+
+1 -> 5
+
+2 -> 4
+
+3
+
+Final output:
+
+rust
+Copy
+Edit
+1 -> 5 -> 2 -> 4 -> 3
