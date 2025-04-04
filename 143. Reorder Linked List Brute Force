@@ -1,0 +1,143 @@
+# CODE IN BRUTE FORCE METHOD . 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        if not head:
+            return
+        
+        nodes = []
+        cur = head
+        while cur:
+            nodes.append(cur)
+            cur = cur.next
+        
+        i, j = 0, len(nodes) - 1
+        while i < j:
+            nodes[i].next = nodes[j]
+            i += 1
+            if i >= j:
+                break
+            nodes[j].next = nodes[i]
+            j -= 1
+        
+        nodes[i].next = None
+
+  Explaination : 
+   🧠 Goal of the Function:
+Reorder a singly linked list like this:
+
+If the list is:
+
+rust
+Copy
+Edit
+1 -> 2 -> 3 -> 4 -> 5
+Then it becomes:
+
+rust
+Copy
+Edit
+1 -> 5 -> 2 -> 4 -> 3
+Basically:
+
+Take the first node,
+
+Then the last node,
+
+Then second node,
+
+Then second-last node,
+
+And so on...
+
+📜 Code Explanation:
+Step 1: Edge Case Check
+python
+Copy
+Edit
+if not head:
+    return
+If the list is empty (head is None), we don’t need to do anything.
+
+Step 2: Convert Linked List into a List
+python
+Copy
+Edit
+nodes = []
+cur = head
+while cur:
+    nodes.append(cur)
+    cur = cur.next
+This loop:
+
+Walks through the entire linked list,
+
+Stores each node in a Python list called nodes.
+
+Example: If your list is 1 -> 2 -> 3 -> 4 -> 5, then nodes will contain:
+
+css
+Copy
+Edit
+[nodes[0], nodes[1], nodes[2], nodes[3], nodes[4]]
+Where:
+
+kotlin
+Copy
+Edit
+nodes[0].val = 1
+nodes[1].val = 2
+nodes[2].val = 3
+nodes[3].val = 4
+nodes[4].val = 5
+Step 3: Reordering Nodes
+python
+Copy
+Edit
+i, j = 0, len(nodes) - 1
+while i < j:
+    nodes[i].next = nodes[j]  # Connect from left to right
+    i += 1
+    if i >= j:
+        break
+    nodes[j].next = nodes[i]  # Connect from right to left
+    j -= 1
+This uses two pointers:
+
+i from start of list,
+
+j from end of list.
+
+At each step:
+
+Connect nodes[i] -> nodes[j],
+
+Then connect nodes[j] -> nodes[i+1].
+
+This rearranges the links as described.
+
+Step 4: Ending the List
+python
+Copy
+Edit
+nodes[i].next = None
+Set the next of the last node to None so the list ends properly.
+
+✅ Example:
+Given:
+
+rust
+Copy
+Edit
+1 -> 2 -> 3 -> 4 -> 5
+After reordering:
+
+rust
+Copy
+Edit
+1 -> 5 -> 2 -> 4 -> 3 
