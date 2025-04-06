@@ -1,0 +1,108 @@
+CODE :
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, curr = None, head
+
+        while curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+        return prev  
+
+Explaination :
+
+🧠 What’s the goal?
+You’re given a singly linked list, and you want to reverse it.
+
+Example:
+
+rust
+Copy code
+Original: 1 -> 2 -> 3 -> 4 -> 5 -> None  
+Reversed: 5 -> 4 -> 3 -> 2 -> 1 -> None
+📦 What’s in the code?
+python
+Copy code
+prev, curr = None, head
+prev will point to the previous node (initially None).
+
+curr will point to the current node (starting at the head of the list).
+
+🔁 Loop until the end of the list:
+python
+Copy code
+while curr:
+    temp = curr.next     # Save the next node
+    curr.next = prev     # Reverse the pointer
+    prev = curr          # Move prev forward
+    curr = temp          # Move curr forward
+Let’s go step by step with example:
+Say the list is: 1 -> 2 -> 3 -> None
+
+Initial state:
+
+prev = None
+
+curr = 1
+
+🔁 First loop:
+temp = 2 (store next node)
+
+curr.next = None (1 now points backward)
+
+prev = 1
+
+curr = 2
+
+Now list looks like:
+1 -> None
+Unlinked rest: 2 -> 3 -> None
+
+🔁 Second loop:
+temp = 3
+
+curr.next = 1 (2 now points to 1)
+
+prev = 2
+
+curr = 3
+
+Now:
+2 -> 1 -> None
+Unlinked rest: 3 -> None
+
+🔁 Third loop:
+temp = None (no more nodes)
+
+curr.next = 2
+
+prev = 3
+
+curr = None
+
+Final result:
+3 -> 2 -> 1 -> None
+
+✅ Done!
+python
+Copy code
+return prev
+prev now points to the new head (which is 3 in this case), so we return it.
+
+📝 Summary:
+You're walking through the list, and for each node, you're:
+
+Remembering the next node.
+
+Reversing the pointer.
+
+Moving forward.
+
+That’s it — you just reversed the linked list! 😊
