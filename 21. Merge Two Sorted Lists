@@ -1,0 +1,116 @@
+CODE :
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def mergeTwoLists(self, list1: ListNode, list2: ListNode) -> ListNode:
+        dummy = node = ListNode()
+
+        while list1 and list2:
+            if list1.val < list2.val:
+                node.next = list1
+                list1 = list1.next
+            else:
+                node.next = list2
+                list2 = list2.next
+            node = node.next
+
+        node.next = list1 or list2
+
+        return dummy.next
+
+EXPLAINATION : 
+
+Let's go through this mergeTwoLists code step by step in a simple and easy way, like you're explaining it to a friend.
+
+✅ Goal:
+You're given two sorted linked lists, and you want to merge them into one sorted linked list.
+
+Example:
+
+rust
+Copy code
+list1: 1 -> 3 -> 5  
+list2: 2 -> 4 -> 6  
+Result: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+🧱 Let's break the code down
+python
+Copy code
+dummy = node = ListNode()
+We create a dummy node to act as the starting point of our merged list.
+
+node is a pointer that we’ll use to build the new list.
+
+dummy will help us return the head of the final list at the end.
+
+🔁 Loop through both lists while both are non-empty:
+python
+Copy code
+while list1 and list2:
+As long as both lists have elements, we compare their values:
+
+python
+Copy code
+if list1.val < list2.val:
+    node.next = list1
+    list1 = list1.next
+else:
+    node.next = list2
+    list2 = list2.next
+node = node.next
+If list1 has the smaller value, we attach it to node.next and move list1 forward.
+
+Otherwise, we do the same with list2.
+
+We then move node forward to keep building the list.
+
+💡 Think of it like comparing the first elements of both lists and choosing the smaller one each time.
+
+🧩 After the loop:
+python
+Copy code
+node.next = list1 or list2
+At this point, one of the lists is finished, and the other might still have elements.
+
+Since the remaining list is already sorted, we just attach it to the end of our merged list.
+
+🏁 Finally:
+python
+Copy code
+return dummy.next
+dummy was just a helper — the actual merged list starts at dummy.next, so we return that.
+
+🖼️ Visualization:
+Imagine:
+
+rust
+Copy code
+list1: 1 -> 4 -> 7  
+list2: 2 -> 3 -> 5
+Step-by-step merge:
+
+1 < 2 → merged: 1
+
+2 < 4 → merged: 1 -> 2
+
+3 < 4 → merged: 1 -> 2 -> 3
+
+4 < 5 → merged: 1 -> 2 -> 3 -> 4
+
+5 < 7 → merged: 1 -> 2 -> 3 -> 4 -> 5
+
+list2 is done → attach remaining 7
+Final: 1 -> 2 -> 3 -> 4 -> 5 -> 7
+
+📝 Summary:
+You're comparing two sorted lists one node at a time.
+
+Always attach the smaller node to your result.
+
+Use a dummy node to simplify list building.
+
+Return the start of your merged list using dummy.next. 
